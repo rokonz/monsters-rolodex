@@ -1,4 +1,7 @@
 import { Component } from 'react';
+import CardList from './components/card-list.component';
+import SearchInput from './components/search-input.component';
+import './App.css';
 
 interface AppProps {}
 
@@ -15,39 +18,27 @@ class App extends Component<AppProps, AppState> {
         this.state = { monsters: [], searchTerm: '' };
     }
 
+    handleSearchTermChange = (searchTerm: string) => {
+        this.setState({ searchTerm });
+    };
+
     // perfect place for network request
     componentDidMount() {
         fetch('https://jsonplaceholder.typicode.com/users')
             .then((response) => response.json()) // response: readable stream
-            .then((users) => {
-                this.setState(
-                    () => ({ monsters: users }),
-                    () => console.log(this.state)
-                );
-            })
+            .then((users) => this.setState({ monsters: users }))
             .catch((err) => console.error(err));
     }
 
     render() {
         return (
-            <div>
-                <input
-                    type="search"
+            <div className="app">
+                <SearchInput
                     placeholder="Search for a Monster"
-                    value={this.state.searchTerm}
-                    onChange={(e) =>
-                        this.setState({
-                            searchTerm: e.target.value
-                                .toLowerCase()
-                                .trimStart(),
-                        })
-                    }
+                    searchTerm={this.state.searchTerm}
+                    onInputChange={this.handleSearchTermChange}
                 />
-                {this.getFilteredMonsters().map((monster) => (
-                    <p key={monster.id} style={{ fontSize: 50, color: 'red' }}>
-                        {monster.name}
-                    </p>
-                ))}
+                <CardList monsterList={this.getFilteredMonsters()} />
             </div>
         );
     }
