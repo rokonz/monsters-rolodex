@@ -1,12 +1,13 @@
 import { Component } from 'react';
 import CardList from './components/card-list.component';
 import SearchInput from './components/search-input.component';
+import Monster from './models/monster';
 import './App.css';
 
 interface AppProps {}
 
 interface AppState {
-    monsters: { id: string; name: string }[];
+    monsters: Monster[];
     searchTerm: string;
 }
 
@@ -26,13 +27,14 @@ class App extends Component<AppProps, AppState> {
     componentDidMount() {
         fetch('https://jsonplaceholder.typicode.com/users')
             .then((response) => response.json()) // response: readable stream
-            .then((users) => this.setState({ monsters: users }))
+            .then((users: Monster[]) => this.setState({ monsters: users }))
             .catch((err) => console.error(err));
     }
 
     render() {
         return (
             <div className="app">
+                <h1 className="app-title">Monster Rolodex</h1>
                 <SearchInput
                     placeholder="Search for a Monster"
                     searchTerm={this.state.searchTerm}

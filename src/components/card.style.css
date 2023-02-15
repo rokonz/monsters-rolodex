@@ -1,0 +1,25 @@
+.card {
+    border-radius : 15px;
+    box-shadow    : 0 0 10px rgba(0, 0, 0, 0.15);
+    flex-basis    : 12rem;
+    padding       : 1em;
+    text-align    : center;
+    cursor        : pointer;
+    transition    : transform 250ms ease-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card__name {
+    font-size   : 1.2rem;
+    font-weight : bold;
+}
+
+.card__email {
+    color                 : darkblue;
+    font-style            : italic;
+    text-decoration       : underline;
+    text-decoration-color : dodgerblue;
+}
