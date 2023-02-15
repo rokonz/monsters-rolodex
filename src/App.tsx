@@ -29,27 +29,35 @@ class App extends Component<AppProps, AppState> {
     }
 
     render() {
-        const filteredMonsters = this.state.monsters.filter((monster) =>
-            monster.name.toLowerCase().includes(this.state.searchTerm)
-        );
-
         return (
             <div>
                 <input
                     type="search"
                     placeholder="Search for a Monster"
-                    onChange={(e) => {
-                        const searchTerm = e.target.value.toLowerCase();
-                        this.setState({ searchTerm });
-                    }}
+                    value={this.state.searchTerm}
+                    onChange={(e) =>
+                        this.setState({
+                            searchTerm: e.target.value
+                                .toLowerCase()
+                                .trimStart(),
+                        })
+                    }
                 />
-                {filteredMonsters.map((monster) => (
+                {this.getFilteredMonsters().map((monster) => (
                     <p key={monster.id} style={{ fontSize: 50, color: 'red' }}>
                         {monster.name}
                     </p>
                 ))}
             </div>
         );
+    }
+
+    getFilteredMonsters() {
+        const { searchTerm, monsters } = this.state;
+        const filteredMonsters = monsters.filter((monster) =>
+            monster.name.toLowerCase().includes(searchTerm)
+        );
+        return filteredMonsters;
     }
 }
 
